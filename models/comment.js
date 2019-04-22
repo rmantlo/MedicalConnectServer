@@ -8,6 +8,10 @@ module.exports = function(sequelize, DataTypes){
             type: DataTypes.INTEGER,
             allowNull:false,
         },
+        username:{
+            type: DataTypes.STRING,
+            aloowNull: false
+        },
         forum_id:{
             type: DataTypes.INTEGER,
             allowNull: false

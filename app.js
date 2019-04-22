@@ -2,6 +2,7 @@ require('./node_modules/dotenv/lib/main').config();
 let express = require('express');
 let app = express();
 let user = require('./controllers/usercontroller');
+let validatedUser = require('./controllers/uservalicontroller');
 let forum = require('./controllers/forumcontroller');
 let comment = require('./controllers/commentcontroller');
 let db = require('./db');
@@ -13,6 +14,7 @@ app.use(require('./middleware/headers'));
 
 app.use('/user', user);
 app.use(require('./middleware/validate-session'));
+app.use('/userinfo', validatedUser);
 app.use('/forum', forum);
 app.use('/comments', comment)
 

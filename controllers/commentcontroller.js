@@ -7,7 +7,8 @@ router.post('/create', (req, res) => {
     Comment.create({
         comment: req.body.comment,
         owner_id: req.user.id,
-        forum_id: req.body.forum_id
+        forum_id: req.body.forum_id,
+        username: req.user.username
     })
         .then(comment => res.status(200).json(comment))
         .catch(err => res.status(500).json(err))
@@ -23,6 +24,17 @@ router.get('/comment/:forum_id', (req, res) => {
         .catch(err => res.status(500).json(err))
 })
 
+router.get('/getmine', (req, res) => {
+    Comment.findAll({
+        where: {
+            owner_id: req.user.id
+        },
+        order: [['createdAt', 'DESC']]
+    })
+        .then(comment => res.status(200).json(comment))
+        .catch(err => res.status(500).json(err))
+})
+
 router.get('/usercomments', (req, res) => {
     Comment.findAll({
         where: {
@@ -33,19 +45,13 @@ router.get('/usercomments', (req, res) => {
 })
 
 router.put('/update/:id', (req, res) => {
-    console.log(req.params.id)
     Comment.update(req.body, {
         where: {
             id: req.params.id,
             owner_id: req.user.id
         }
     })
-        .then(res => res.status(200).json({
-            message: 'comment updated',
-            comment: comment
-        }),
-            err => res.status(500).json(err)
-            )
+        .then(comment => res.status(200).json(comment))
         .catch(err => res.status(500).json(err))
 })
 
@@ -56,6 +62,23 @@ router.delete('/delete/:id', (req, res) => {
             id: req.params.id
         }
     })
+        .then(comment => res.status(200).json(comment))
+        .catch(err => res.status(500).json(err))
+})
+
+router.delete('/deleteallbyuser', (req, res) => {
+    Comment.destroy({
+        where: {
+            owner_id: req.user.id
+        }
+    })
+        .then(rep => res.status(200).json({
+            message: 'comments by user deleted'
+        }))
+        .catch(err => res.status(500).json({
+            error: err,
+            message: 'Comments by user not deleted'
+        }))
 })
 
 module.exports = router;

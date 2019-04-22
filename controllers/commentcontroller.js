@@ -13,7 +13,6 @@ router.post('/create', (req, res) => {
         .then(comment => res.status(200).json(comment))
         .catch(err => res.status(500).json(err))
 })
-
 router.get('/comment/:forum_id', (req, res) => {
     Comment.findAll({
         where: {
@@ -23,6 +22,7 @@ router.get('/comment/:forum_id', (req, res) => {
         .then(comment => res.status(200).json(comment))
         .catch(err => res.status(500).json(err))
 })
+
 
 router.get('/getmine', (req, res) => {
     Comment.findAll({

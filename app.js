@@ -21,3 +21,6 @@ app.use('/comments', comment)
 app.listen(process.env.PORT, function(){
     console.log(`App is listening on ${process.env.PORT}`)
 })
+
+//below is in .env file for deploying
+//DATABASE_URL = postgresql://<user>:<password>@<host>/<dbname>

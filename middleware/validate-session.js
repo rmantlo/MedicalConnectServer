@@ -7,7 +7,7 @@ module.exports = function (req, res, next) {
     } else {
         let sessionToken = req.headers.authorization;
 
-        if (!sessionToken  || sessionToken === undefined) return res.status(400).json({ auth: false, message: 'no session Token' })
+        if (!sessionToken || sessionToken === undefined) return res.status(400).json({ auth: false, message: 'no session Token' })
         else {
             jwt.verify(sessionToken, process.env.JWT_SECRET, (err, decoded) => {
                 if (decoded) {
@@ -16,15 +16,15 @@ module.exports = function (req, res, next) {
                             id: decoded.id
                         }
                     })
-                    .then(user => {
-                        req.user = user;
-                        return next();
-                    },
-                    function(){
-                        res.status(401).json('token not decoded')
-                    })
+                        .then(user => {
+                            req.user = user;
+                            return next();
+                        },
+                            function () {
+                                res.status(401).json('token not decoded')
+                            })
 
-                }else {
+                } else {
                     res.status(402).json('not authed')
                 }
             })
